@@ -1,0 +1,238 @@
+<div class="container">
+   <div class="inner-container">
+
+      <!-- Top left and top right parallelograms -->
+      <div class="parallelogram parallelogram-left">
+         <p class="upper-info info-text-left">Keress telefonon: {{ companyPhoneNumber }}</p>
+      </div>
+      <div class="parallelogram parallelogram-right">
+         <p class="upper-info info-text-right">Email címünk: {{ companyEmail }}</p>
+      </div>
+
+      <!-- Clickable logo -->
+      <h2 class="logo" routerLink="/main"><span class="primary">WEST</span> ALKATRÉSZ</h2>
+
+      <!-- 2 buttons -->
+      <div class="buttons-container">
+         <div class="buttons-inner-container">
+            <button class="button carselect-button" mat-raised-button color="primary" (click)="onCarSelectorButtonClick()">Jármű kiválasztása</button>
+            <button class="button offer-button" mat-raised-button routerLink="/offer">Árajánlat kérése</button>
+         </div>
+      </div>
+
+      <!-- Search field -->
+      <div class="search-container">
+         <div class="search-inner-container">
+            <input id="searchField" class="search-field" placeholder="Cikkszám, gyári szám.." maxlength="64" autocomplete="off" [(ngModel)]="searchField" (ngModelChange)="lookForCategories()" (focus)="lookForCategories()">
+
+            <button mat-raised-button class="search-button" color="primary" (click)="searchForProduct()">
+               <mat-icon>search</mat-icon>
+            </button>
+
+            <div class="displayed-category-container">
+
+               <!-- Product under searchbar that matches the searchedText fully -->
+               <div *ngIf="displayedProduct" class="displayed-product-container" [routerLink]="['/product', displayedProduct.partNumber]">
+                  <img [src]="sanitize(displayedProduct.imgurls[0])" class="displayed-product-img">
+                  <div class="displayed-product-inner-container">
+                     <span class="displayed-product-partnumber">{{ displayedProduct.partNumber }}<span class="displayed-product-name">, {{ displayedProduct.name }}</span></span>
+                  </div>
+               </div>
+
+               <!-- Categories under searchbar -->
+               <div *ngFor="let displayedCategory of displayedCategories" class="displayed-category-inner-container" (click)="jumpToCategory(displayedCategory)">
+                  <p>{{ displayedCategory.prefix}} / <span class="bold">{{ displayedCategory.suffix }}</span></p>
+               </div>
+            </div>
+            
+         </div>
+
+      </div>
+
+      <!-- Navigation options on the left -->
+      <div class="nav-container">
+
+         <!-- Mobile menu button -->
+         <button mat-icon-button class="mobile-nav-button" (click)="onMobileMenuButtonClick()">
+            <mat-icon>menu</mat-icon>
+         </button>
+
+         <!-- Desktop navigation -->
+         <nav>
+            <ul>
+               <li><a routerLink="/main">Főoldal</a></li>
+
+               <!-- Template of a navigation element -->
+               <ng-template #recursiveList let-children>
+                  <ul>
+                     <div>
+                        <li *ngFor="let child of children">
+                           <a [routerLink]="['products', { productCategory: child.name }]">
+                              {{ child.name }}
+                              <mat-icon *ngIf="child.children" class="arrow-horizontal">chevron_right</mat-icon>
+                           </a>
+                           <ng-container *ngTemplateOutlet="recursiveList; context: { $implicit: child.children }"></ng-container>
+                        </li>
+                     </div>
+                  </ul>
+               </ng-template>
+
+               <!-- Loop through all root nodes, and call template with their children -->
+               <ng-container *ngFor="let rootNode of categories">
+                  <li><a>{{ rootNode.name }}<mat-icon class="arrow">expand_more</mat-icon></a>
+                     <ng-container *ngTemplateOutlet="recursiveList; context: { $implicit: rootNode.children }"></ng-container>
+                  </li>
+               </ng-container>
+
+            </ul>
+         </nav>
+      </div>
+
+      <!-- Account -->
+      <div *ngIf="getName() != ''" class="profile-container">
+
+         <!-- Account on desktop -->
+         <nav>
+            <ul>
+               <li><a class="profile-name">{{ getName() }}<mat-icon class="profile-arrow">expand_more</mat-icon><br><span class="profile-email">{{ getEmail() }}</span></a>
+                  <ul>
+                     <div>
+                        <li>
+                           <a [routerLink]="['/profile', 0]">Személyes adatok</a>
+                           <a [routerLink]="['/profile', 1]">Rendelések</a>
+                           <a [routerLink]="['/profile', 2]">Cím módosítása</a>
+                           <a [routerLink]="['/profile', 3]">Kívánságlista</a>
+                           <a [routerLink]="['/profile', 4]">Árajánlatok</a>
+                           <a [routerLink]="['/profile', 5]">Garázs</a>
+                           <a routerLink="/login" (click)="logOut()">Kijelentkezés</a>
+                        </li>
+                     </div>
+                  </ul>
+               </li>
+            </ul>
+         </nav>
+
+         <!-- Account on mobile -->
+         <div class="mobile-profile" routerLink="/profile/0">
+            <a class="profile-text">
+               <mat-icon class="cart-icon">person</mat-icon>
+            </a>
+         </div>
+
+      </div>
+
+      <!-- Cart -->
+      <div class="cart-container">
+
+         <!-- Cart on desktop -->
+         <nav>
+            <ul>
+               <li>
+
+                  <!-- The cart button on toolbar -->
+                  <a class="cart-text" routerLink="/cart">
+                     <mat-icon class="cart-icon">shopping_cart</mat-icon>Kosár
+                     <mat-icon class="arrow">expand_more</mat-icon>
+                     <div *ngIf="cartItems.length > 0" class="cart-indicator">
+                        <p class="cart-indicator-text">{{ cartItems.length }}</p>
+                     </div>
+                  </a>
+
+                  <!-- Cart dropdown content -->
+                  <ul>
+                     <div class="cart-content-container">
+
+                        <!-- Cart elements ngFor-->
+                        <div class="cart-product-list-container">
+                           <div>
+                              <div *ngFor="let product of cartItems; let i = index">
+                                 <div class="cart-product-container">
+
+                                    <!-- Product image -->
+                                    <div class="product-img-container">
+                                       <img [src]="sanitize(product.imgurls[0].replace('[', '').replace(']', '').replace('/t_t100x100v2', ''))" class="product-img">
+                                    </div>
+
+                                    <!-- Product info -->
+                                    <div class="cart-product-info-container">
+                                       <div class="product-name-container">
+                                          <div class="product-name" [routerLink]="['/product', product.partNumber]">{{ product.name }}<span class="product-brand"> {{ product.brand }}</span></div>
+                                       </div>
+                                       <p class="product-code">{{ product.partNumber }}</p>
+                                       <p class="product-price">{{ formatPriceToString(addTax(product.price)) }}
+                                          <span class="product-amount">({{ product.quantity }} db)</span>
+                                       </p>
+                                    </div>
+
+                                    <!-- Delete button -->
+                                    <button mat-icon-button class="delete-icon" (click)="deleteCartItem(i)">
+                                       <mat-icon>close</mat-icon>
+                                    </button>
+
+                                    <!-- Divider -->
+                                    <mat-divider class="divider"></mat-divider>
+
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+
+                        <!-- Subtotal -->
+                        <div class="total-container">
+
+                           <!-- Prices -->
+                           <div class="price-container">
+                              <p class="net-price">Nettó ár: {{ formatPriceToString(total) }}</p>
+                              <p class="actual-price">Bruttó ár: <span class="primary">{{ formatPriceToString(addTax(total)) }}</span></p>
+                           </div>
+
+                           <!-- Navigate to cart buttons -->
+                           <button class="checkout-button" mat-raised-button color="white" routerLink="cart">Kosár megtekintése</button>
+                           <button class="order-button" mat-raised-button color="primary" routerLink="cart">Megrendelés</button>
+
+                        </div>
+                     </div>
+                  </ul>
+               </li>
+            </ul>
+         </nav>
+
+         <!-- Cart on mobile -->
+         <div class="mobile-cart" routerLink="/cart">
+            <a class="cart-text">
+               <mat-icon class="cart-icon">shopping_cart</mat-icon>
+               <div *ngIf="cartItems.length > 0" class="cart-indicator">
+                  <p class="cart-indicator-text">{{ cartItems.length }}</p>
+               </div>
+            </a>
+         </div>
+
+      </div>
+
+      <!-- Login buttons -->
+      <div *ngIf="getName() == ''" class="login-buttons-container">
+
+         <!-- Login buttons on desktop -->
+         <div class="login-buttons-desktop">
+            <span class="login-button" routerLink="/login">Bejelentkezés</span>
+            <span class="login-button" routerLink="/login">Regisztráció</span>
+         </div>
+
+         <!-- Login button on mobile -->
+         <div class="mobile-login" routerLink="/login">
+            <mat-icon class="login-icon">login</mat-icon>
+            <a class="login-text">Bejelentkezés</a>
+         </div>
+
+      </div>
+
+   </div>
+
+   <!-- Bottom center trapezoid below search bar -->
+   <div class="trapezoid"></div>
+</div>
+
+<!-- The routed views render in the <router-outlet>-->
+<div class="router-outlet-container">
+   <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,270 @@
+.content-container {
+   width: 100%;
+   margin: 0 auto;
+}
+
+.content-inner-container {
+   width: 940px;
+   margin: 0 auto;
+   margin-top: 50px;
+   margin-bottom: 230px;
+   padding: 15px;
+   overflow: hidden;
+}
+
+.menu-card {
+   position: relative;
+   width: 20%;
+   height: 540px;
+   box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.5);
+   float: left;
+}
+
+.main-card {
+   width: 70%;
+   height: 540px;
+   box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.5);
+   float: right;
+}
+
+.card-title {
+   font-size: 20px;
+   margin: 0;
+}
+
+.options-container>p {
+   width: calc(100%);
+   padding: 8px 16px;
+   margin: 0;
+   margin-left: -16px;
+   cursor: pointer;
+   transition: 0.25s;
+}
+
+.active {
+   color: var(--color-primary);
+}
+
+.options-container>p::before {
+   position: absolute;
+   opacity: 0;
+   left: 0;
+   min-width: 5px !important;
+   height: 40px;
+   margin-top: -8px;
+   background-color: var(--color-primary);
+   content: "";
+   transition: 0.25s;
+}
+
+.options-container>p.active::before {
+   opacity: 1;
+}
+
+.options-container>p:hover {
+   background-color: rgb(241, 241, 241);
+   color: var(--color-primary);
+   transition: 0.25s;
+}
+
+.dashboard-container {
+   overflow: auto;
+   margin-top: 15px;
+}
+
+.dashboard-container p {
+   margin-bottom: 0;
+   margin-top: 8px;
+}
+
+.save-button {
+   margin-top: 15px;
+}
+
+.table {
+   width: 100%;
+   min-width: 650px;
+}
+
+.table th {
+   text-align: left;
+}
+
+.table th.center {
+   text-align: center;
+}
+
+/* Address styles */
+.inline-container {
+   display: flex;
+   width: 380px;
+}
+
+.inline-container input {
+   width: 100%;
+}
+
+.input-left {
+   width: 30%;
+   margin-right: 60px;
+}
+
+.input-right {
+   width: calc(70%);
+}
+
+/* Wishlist styles */
+.wishlist-table {
+   width: 90%;
+   min-width: 650px;
+   padding: 20px;
+}
+
+.wishlist-product-info-container {
+   display: table;
+   width: 100%;
+}
+
+.wishlist-product-info-container>td {
+   width: 25%;
+}
+
+.wishlist-product-info-container>td:first-child {
+   width: 7%;
+}
+
+.wishlist-product-info-container>td {
+   color: #444444;
+   transition: 0.25s;
+}
+
+.wishlist-product-info-container:hover>td {
+   cursor: pointer;
+   color: var(--color-primary);
+   transition: 0.25s;
+}
+
+.wishlist-delete-icon {
+   color: #444444;
+   transition: 0.25s;
+}
+
+.wishlist-delete-icon:hover {
+   cursor: pointer;
+   color: var(--color-primary);
+   transition: 0.25s;
+}
+
+/* Offer styles */
+.offer-answered {
+   color: green;
+   font-weight: 600;
+}
+
+.offer-pending {
+   color: var(--color-primary);
+   font-weight: 600;
+}
+
+/* Garage styles */
+.garage-car-container {
+   display: table;
+   width: 100%;
+}
+
+.garage-car-container:hover>td {
+   cursor: pointer;
+   color: var(--color-primary);
+   transition: 0.25s;
+}
+
+.garage-delete-icon {
+   color: #444444;
+   transition: 0.25s;
+}
+
+.garage-delete-icon:hover {
+   cursor: pointer;
+   color: var(--color-primary);
+   transition: 0.25s;
+}
+
+.garage-index {
+   width: 10px;
+}
+
+.garage-brand {
+   width: 130px;
+}
+
+.garage-chassis {
+   width: 120px;
+   white-space: nowrap;
+}
+
+.garage-year {
+   width: 140px;
+}
+
+.garage-engine, .garage-engine-code {
+   max-width: 50px;
+}
+
+.text-limit {
+   text-overflow: ellipsis;
+   overflow: hidden;
+   white-space: nowrap;
+}
+
+/* Logout styles */
+.logout-button {
+   margin-top: 15px;
+   width: 140px;
+}
+
+input {
+   margin: 0;
+   width: 380px;
+}
+
+@media screen and (max-width: 980px) {
+   .content-inner-container {
+      display: grid;
+      width: 100%;
+   }
+
+   .content-inner-container mat-card {
+      width: calc(100% - 64px);
+      max-width: calc(100vw - 64px);
+      height: fit-content;
+   }
+
+   .options-container>p {
+      padding: 5px 16px;
+   }
+
+   .options-container>p::before {
+      height: 34px;
+      margin-top: -5px;
+   }
+
+   .main-card {
+      margin-top: 30px;
+   }
+}
+
+@media screen and (max-width: 900px) {
+   .content-inner-container {
+      margin-top: 10px;
+   }
+}
+
+@media screen and (max-width: 400px) {
+   input {
+      width: 100%;
+   }
+
+   .input-left {
+      width: 12%;
+   }
+}

@@ -1,0 +1,40 @@
+<div class="content-container">
+   <div class="content-inner-container">
+
+      <!-- Stepper -->
+      <mat-stepper class="stepper" linear="true" #stepper color="primary">
+
+         <!-- First step: Check Products in Cart -->
+         <mat-step label="Kosár áttekintése">
+            <app-overview [cartItems]="cartItems" (totalEvent)="setTotal($event)" (shippingPriceEvent)="setShippingPrice($event)" (shippingEvent)="setShippingMethod($event)" (paymentEvent)="setPaymentMethod($event)"></app-overview>
+
+            <!-- Next Button-->
+            <button class="button next-button" mat-raised-button color="primary" [disabled]="cartItems.length < 1" matStepperNext>Tovább</button>
+         </mat-step>
+
+         <!-- Second step: Select delivery info -->
+         <mat-step [stepControl]="form" label="Adatok kitöltése">
+            <app-form [form]="form" #formComponent></app-form>
+            <button class="button next-button" mat-raised-button color="primary" (click)="formComponent.attemptToValidate()" matStepperNext>Tovább</button>
+            <button mat-button class="button" color="primary" matStepperPrevious>Vissza</button>
+         </mat-step>
+
+         <!-- Third step: Confirm order -->
+         <mat-step label="Megerősítés">
+            <ng-template matStepContent>
+               <app-confirmation [cartItems]="cartItems" [form]="form" [total]="total" [shippingPrice]="shippingPrice" [shippingMethod]="shippingMethod" [paymentMethod]="paymentMethod"></app-confirmation>
+            </ng-template>
+         </mat-step>
+
+         <!-- Fourth step: Results after order -->
+         <mat-step label="Áttekintés">
+            <p class="title">Köszönjük a rendelést!</p>
+            <div class="centered">
+               <button mat-raised-button class="center" color="primary" routerLink="/profile/1">Rendelések megtekintése</button>
+            </div>
+         </mat-step>
+
+      </mat-stepper>
+
+   </div>
+</div>

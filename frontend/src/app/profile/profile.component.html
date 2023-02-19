@@ -1,0 +1,207 @@
+<div class="content-container">
+   <div class="content-inner-container">
+
+      <!-- Menu card on the left -->
+      <mat-card class="menu-card">
+
+         <!-- Menu Label -->
+         <p class="card-title">Lehetőségek</p>
+         <mat-divider class="divider"></mat-divider>
+
+         <!-- Menu options -->
+         <div class="options-container">
+            <p *ngFor="let option of menuOptions; let i = index;" class="menu-option" [ngClass]="{'active': step == i}" (click)="step = i;">{{ option }}</p>
+         </div>
+
+      </mat-card>
+
+      <!-- Card on the right -->
+      <mat-card class="main-card">
+
+         <!-- Personal data section -->
+         <div *ngIf="step == 0">
+            <p class="card-title">Személyes adatok</p>
+            <mat-divider></mat-divider>
+
+            <div class="dashboard-container">
+               <p>E-mail cím</p>
+               <input placeholder="pelda@gmail.com" [value]="getEmail()" disabled>
+               <p>Név</p>
+               <input placeholder="Példa Név" [value]="getName()" #name>
+               <p>Telefonszám</p>
+               <input placeholder="+36 30 123 4567" [value]="getPhoneNumber()" #phone>
+               <br>
+
+               <button mat-raised-button color="primary" class="save-button" (click)="updateBasicUserInfo(name.value, phone.value)">Adatok mentése</button>
+            </div>
+         </div>
+
+         <!-- Orders section -->
+         <div *ngIf="step == 1">
+            <p class="card-title">Rendeléseid</p>
+            <mat-divider></mat-divider>
+
+            <div class="dashboard-container">
+
+               <!-- Order table if there are any orders -->
+               <table *ngIf="currentUser && orders && orders.length > 0" class="table">
+                  <thead>
+                     <th>Dátum</th>
+                     <th>Ár</th>
+                  </thead>
+
+                  <tbody>
+                     <tr *ngFor="let order of orders">
+                        <td>{{ timestampToDate(order.date).toLocaleString() }}</td>
+                        <td>{{ formatPriceToString(addTax(order.totalPrice)) }}</td>
+                        <td>
+                           <button mat-raised-button color="primary" (click)="openOrderDialog(order)">Részletek</button>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+
+               <!-- No orders yet text -->
+               <div *ngIf="currentUser && orders && orders.length < 1">
+                  Nincsen korábbi rendelésed.
+               </div>
+            </div>
+         </div>
+
+         <!-- Address section -->
+         <div *ngIf="step == 2">
+            <p class="card-title">Cím módosítása</p>
+            <mat-divider></mat-divider>
+
+            <div class="dashboard-container">
+               <div class="inline-container">
+                  <div class="input-left">
+                     <p>Irányítószám</p>
+                     <input placeholder="7100" [value]="getZip()" #zip>
+                  </div>
+   
+                  <div class="input-right">
+                     <p>Település</p>
+                     <input placeholder="Szekszárd" [value]="getCity()" #city>
+                  </div>
+               </div>
+               
+               <p>Utca, házszám</p>
+               <input placeholder="Példa utca 12." [value]="getStreet()" #street>
+               <p>Adószám (ha van)</p>
+               <input placeholder="21428942-2-17" [value]="getTaxNumber()" #taxNumber>
+               <br>
+
+               <button mat-raised-button color="primary" class="save-button" (click)="updateUserAddress(zip.value, city.value, street.value, taxNumber.value)">Adatok mentése</button>
+            </div>
+         </div>
+
+         <!-- Wish list section -->
+         <div *ngIf="step == 3">
+            <p class="card-title">Kívánságlista</p>
+            <mat-divider></mat-divider>
+
+            <div class="dashboard-container">
+
+               <table *ngIf="currentUser && currentUser.wishList.length > 0" class="wishlist-table">
+                  <tbody>
+                     <tr *ngFor="let product of currentUser.wishList; let i = index;" class="wishlist-row">
+                        <div class="wishlist-product-info-container" [routerLink]="['/product', product.partNumber]">
+                           <td>{{ (i+1) }}.</td>
+                           <td>{{ product.partNumber }}</td>
+                           <td>{{ product.name }}</td>
+                           <td>{{ product.brand }}</td>
+                        </div>
+                        <td>
+                           <mat-icon class="wishlist-delete-icon" (click)="removeWishListProduct(product)">close</mat-icon>
+                           <mat-divider></mat-divider>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+
+               <!-- No wishlist yet text -->
+               <div *ngIf="currentUser && currentUser.wishList.length < 1">
+                  Nincsen terméked a kívánságlistádban.
+               </div>
+
+            </div>
+         </div>
+
+         <!-- Offers section -->
+         <div *ngIf="step == 4">
+            <p class="card-title">Árajánlatok</p>
+            <mat-divider></mat-divider>
+
+            <div class="dashboard-container">
+
+               <!-- Offer table if there are any offers -->
+               <table *ngIf="offers && offers.length > 0" class="table">
+                  <thead>
+                     <th>Dátum</th>
+                     <th>Státusz</th>
+                  </thead>
+
+                  <tbody>
+                     <tr *ngFor="let offer of offers">
+                        <td>{{ timestampToDate(offer.date).toLocaleString() }}</td>
+                        <td *ngIf="offer.answered" class="offer-answered">Megválaszolva</td>
+                        <td *ngIf="!offer.answered" class="offer-pending">Feldolgozás alatt</td>
+                        <td>
+                           <button mat-raised-button color="primary" (click)="openOriginalOfferDialog(offer)">Megtekintés</button>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+
+               <!-- No orders yet text -->
+               <div *ngIf="offers && offers.length < 1">
+                  Még nem kértél árajánlatot.
+               </div>
+            </div>
+         </div>
+
+         <!-- Garage section -->
+         <div *ngIf="step == 5">
+            <p class="card-title">Garázs</p>
+            <mat-divider></mat-divider>
+
+            <div class="dashboard-container">
+
+               <!-- Cars table if there are any cars -->
+               <table *ngIf="cars && cars.length > 0" class="table">
+                  <tbody>
+                     <tr *ngFor="let car of cars; let i = index;" class="car-row">
+                        <div class="garage-car-container" [routerLink]="['/car', car.carIndex]">
+                           <td class="garage-index">{{ (i+1) }}.</td>
+                           <td class="garage-brand">{{ car.brand }}</td>
+                           <td class="garage-chassis text-limit">{{ car.chassis }}</td>
+                           <td class="garage-year">{{ car.year }}</td>
+                           <td class="garage-engine text-limit">{{ car.engine }}</td>
+                           <td class="garage-engine-code text-limit">{{ car.engineCode }}</td>
+                        </div>
+                        <td>
+                           <mat-icon class="garage-delete-icon" (click)="removeGarageCar(car)">close</mat-icon>
+                           <mat-divider></mat-divider>
+                        </td>
+                  </tbody>
+               </table>
+
+               <!-- No cars yet text -->
+               <div *ngIf="cars && cars.length < 1">
+                  Még nem raktál autót a garázsba.
+               </div>
+            </div>
+
+         </div>
+
+         <!-- Logout section -->
+         <div *ngIf="step == 6">
+            <p class="card-title">Biztosan ki szeretnél jelentkezni?</p>
+            <mat-divider></mat-divider>
+            <button mat-raised-button color="warn" class="logout-button">Kijelentkezés</button>
+         </div>
+
+      </mat-card>
+   </div>
+</div>

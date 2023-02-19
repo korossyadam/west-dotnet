@@ -1,0 +1,162 @@
+<div class="content-container">
+   <div class="content-inner-container">
+
+      <div *ngIf="initialLoading" class="initial-spinner-container">
+         <mat-spinner class="initial-spinner" diameter="140"></mat-spinner>
+      </div>
+
+      <div *ngIf="!initialLoading && !currentProduct" class="no-results-container">
+         <p>Nincs találat.</p>
+      </div>
+
+      <div *ngIf="!initialLoading && currentProduct">
+         <!-- Product container-->
+         <mat-card class="product-container">
+
+            <!-- Back button -->
+            <div class="back-container" (click)="navigateBack()">
+               <button mat-icon-button class="back-icon">
+                  <mat-icon>arrow_back_ios</mat-icon>
+               </button>
+               <p class="back-text">Vissza</p>
+            </div>
+           
+
+            <div *ngIf="currentProduct">
+               <div *ngIf="currentProduct.imgurls.length > 1" class="image-selector-container">
+                  <div *ngFor="let imageUrl of currentProduct.imgurls; let i = index;">
+                     <img [src]="sanitize(imageUrl.replace('[', '').replace(']', '').replace('/t_t100x100v2', ''))" class="small-img" [ngClass]="{'selected-img': selectedImageIndex == i}" (click)="changeDisplayedImage(imageUrl, i)">
+                  </div>
+               </div>
+
+               <!-- Product image -->
+               <div class="product-img-container">
+                  <img *ngIf="selectedImageUrl" class="product-img" [src]="sanitize(selectedImageUrl.replace('[', '').replace(']', '').replace('/t_t100x100v2', ''))" (click)="openImageModal()">
+                  <div class="no-img-container">
+                     <mat-icon *ngIf="selectedImageUrl == ''" class="no-img">image_not_supported</mat-icon>
+                  </div>
+               </div>
+
+               <!-- Product info-->
+               <div class="product-info-container">
+                  <p class="product-part-number">{{ currentProduct.partNumber }}</p>
+                  <p class="product-name">{{ currentProduct.name }}</p>
+                  <p>{{ currentProduct.brand }}</p>
+                  <p class="product-description">{{ currentProduct.description }}</p>
+
+                  <div *ngIf="!currentProduct.canBeReturned">
+                     <span class="non-returnable-text">
+                        <mat-icon class="non-returnable-icon">error</mat-icon>Ez a termék nem adható vissza.
+                     </span>
+                  </div>
+               </div>
+            </div>
+         </mat-card>
+
+         <!-- Price container -->
+         <mat-card class="price-container">
+
+            <div *ngIf="currentProduct">
+               <div class="info-row">
+                  <span class="price-info">Bruttó ár:</span><span class="product-final-price">{{ formatPriceToString(addTax(currentProduct.price)) }}</span>
+               </div>
+
+               <div class="info-row">
+                  <span class="price-info">Nettó ár:</span><span class="product-net-price">{{ formatPriceToString(currentProduct.price) }}</span>
+               </div>
+
+               <div class="info-row">
+                  <span class="price-info">Raktár állapota</span>
+                  <span *ngIf="currentProduct.stock > 0" class="product-net-price in-stock">Raktáron</span>
+                  <span *ngIf="currentProduct.stock <= 0" class="product-net-price">Nincs raktáron</span>
+               </div>
+
+               <div class="info-row">
+                  <span class="price-info">Elérhető mennyiség:</span><span class="product-net-price">{{ currentProduct.stock }}</span>
+               </div>
+
+               <div class="shipping-info">Szállítás: 1-3 munkanap</div>
+
+               <!-- Add to Cart section-->
+               <div class="cart-container">
+
+                  <div class="amount-container">
+                     <div class="amount-button input-negative" (click)="decrementInputValue()">-</div>
+                     <input id="amount-input" class="amount-input" type="number" value="1" #quantity>
+                     <div class="amount-button input-positive" (click)="incrementInputValue()">+</div>
+                  </div>
+
+                  <div class="cart-button-container">
+                     <button mat-raised-button class="cart-button" (click)="addToCart(quantity.value)">Kosárba rakás</button>
+                  </div>
+
+                  <!-- Add to Favorites section -->
+                  <div>
+                     <span class="favorite-text">
+                        <mat-icon class="favorite-icon">favorite</mat-icon>Kívánságlistához adás
+                     </span>
+                  </div>
+
+                  <div class="question-section">
+                     <p>Kérdésed van a termékkel kapcsolatban? Tedd fel bátran itt!</p>
+                  </div>
+
+               </div>
+            </div>
+
+         </mat-card>
+
+         <!-- Specification container -->
+         <mat-card class="specification-container">
+
+            <!-- Property and Factory Numbers buttons -->
+            <div class="buttons-container">
+               <div class="buttons-inner-container">
+                  <div class="info-button button-properties" [ngClass]="{'info-button-selected': displayedInformation == 0}" (click)="changeInformationDisplay(0)">Tulajdonságok</div>
+                  <div class="info-button button-factory-numbers" [ngClass]="{'info-button-selected': displayedInformation == 1}" (click)="changeInformationDisplay(1)">Gyári számok</div>
+               </div>
+            </div>
+
+            <!-- Information: properties -->
+            <div *ngIf="displayedInformation == 0">
+               <p *ngIf="currentProduct.properties.length == 0">Ennek a terméknek nincsenek tulajdonságai.</p>
+               <table class="properties-table" rules="all">
+                  <ng-container *ngIf="currentProduct">
+                     <tr *ngFor="let property of currentProduct.properties; let i = index;">
+                        <td class="properties-table-row properties-first-column">{{ property.key }}</td>
+                        <td class="properties-table-row properties-second-column">{{ property.value }}</td>
+                     </tr>
+                  </ng-container>
+               </table>
+            </div>
+
+            <!-- Information: factory numbers-->
+            <div *ngIf="displayedInformation == 1">
+               <p *ngIf="currentProduct.factoryNumbers.length == 0">Ennek a terméknek nincsenek gyári számai.</p>
+               <table class="factory-numbers-table">
+                  <ng-container *ngFor="let factoryNumber of currentProduct.factoryNumbers; let i = index;">
+                     <tr>
+                        <td class="factory-numbers-table-row factory-numbers-first-column">{{ factoryNumber.key }}</td>
+                        <td class="factory-numbers-table-row factory-numbers-second-column">{{ factoryNumber.value }}</td>
+                     </tr>
+                  </ng-container>
+               </table>
+            </div>
+
+         </mat-card>
+      </div>
+
+   </div>
+</div>
+
+<div *ngIf="currentProduct && selectedImageUrl" id="imageModal" class="modal">
+   
+   <div class="modal-img-container">
+      <mat-icon *ngIf="currentProduct.imgurls.length > 1 && selectedImageIndex > 0" class="modal-white-icon modal-arrow-icon back" (click)="previousModalImage()">arrow_back_ios</mat-icon>
+      <img [src]="sanitize(selectedImageUrl.replace('[', '').replace(']', '').replace('/t_t100x100v2', ''))" class="modal-img">
+      <mat-icon *ngIf="currentProduct.imgurls.length > 1 && selectedImageIndex+1 < currentProduct.imgurls.length" class="modal-white-icon modal-arrow-icon forward" (click)="nextModalImage()">arrow_forward_ios</mat-icon>
+   </div>
+   
+   <mat-icon class="modal-white-icon modal-close-icon" (click)="closeImageModal()">close</mat-icon>
+   
+</div>

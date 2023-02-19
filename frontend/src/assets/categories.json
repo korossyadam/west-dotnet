@@ -1,0 +1,390 @@
+[
+   {
+      "name": "Garázs felszerelések",
+      "children": [
+         {
+            "name": "Szerszámok",
+            "children": [
+               {
+                  "name": "Kézi szerszámok",
+                  "children": [
+                     {
+                        "name": "Dugófejek",
+                        "children": [
+                           {
+                              "name": "Hagyományos dugófejek"
+                           },
+                           {
+                              "name": "Gépi dugófejek"
+                           }
+                        ]
+                     },
+                     {
+                        "name": "Szerszámkészletek"
+                     },
+                     {
+                        "name": "Kulcsok"
+                     },
+                     {
+                        "name": "Gyertyakulcsok"
+                     },
+                     {
+                        "name": "Mágneses kiszedők"
+                     },
+                     {
+                        "name": "Lehúzók"
+                     },
+                     {
+                        "name": "Egyéb"
+                     }
+                  ]
+               },
+               {
+                  "name": "Elektromos szerszámok"
+               },
+               {
+                  "name": "Mérőeszközök"
+               }
+            ]
+         },
+         {
+            "name": "Garázs berendezések",
+            "children": [
+               {
+                  "name": "Műhelyhigiénia",
+                  "children": [
+                     {
+                        "name": "Kézhigiénia"
+                     },
+                     {
+                        "name": "Tisztítás"
+                     }
+                  ]
+               },
+               {
+                  "name": "Klímaszervíz"
+               },
+               {
+                  "name": "Akkumulátor szervíz",
+                  "children": [
+                     {
+                        "name": "Saruk"
+                     },
+                     {
+                        "name": "Töltők"
+                     },
+                     {
+                        "name": "Bikakábelek"
+                     },
+                     {
+                        "name": "Teszterek"
+                     },
+                     {
+                        "name": "Egyéb akkumulátor"
+                     }
+                  ]
+               },
+               {
+                  "name": "Emelők",
+                  "children": [
+                     {
+                        "name": "Krokodil emelők"
+                     },
+                     {
+                        "name": "Trapéz emelők"
+                     }
+                  ]
+               },
+               {
+                  "name": "Egyéb"
+               }
+            ]
+         },
+         {
+            "name": "Levegőtechnika",
+            "children": [
+               {
+                  "name": "Toldók",
+                  "children": [
+                     {
+                        "name": "Műanyag toldók",
+                        "children": [
+                           {
+                              "name": "Műanyag egyenes toldó"
+                           },
+                           {
+                              "name": "Műanyag könyök toldó"
+                           },
+                           {
+                              "name": "Műanyag T toldó"
+                           },
+                           {
+                              "name": "Műanyag 4-es toldó"
+                           }
+                        ]
+                     },
+                     {
+                        "name": "Fém toldók",
+                        "children": [
+                           {
+                              "name": "Fém egyenes toldó"
+                           },
+                           {
+                              "name": "Fém könyök toldó"
+                           },
+                           {
+                              "name": "Fém T toldó"
+                           }
+                        ]
+                     }
+                  ]
+               },
+               {
+                  "name": "Levegő csövek"
+               },
+               {
+                  "name": "Közcsavarok"
+               },
+               {
+                  "name": "Légkuplung"
+               }
+            ]
+         }
+      ]
+   },
+   {
+      "name": "Egyéb termékek",
+      "children": [
+         {
+            "name": "Autóápolás",
+            "children": [
+               {
+                  "name": "Ablaktisztítás"
+               },
+               {
+                  "name": "Kefék"
+               },
+               {
+                  "name": "Törlőkendők"
+               },
+               {
+                  "name": "Motorblokk tisztítás"
+               },
+               {
+                  "name": "Felni tisztítás"
+               },
+               {
+                  "name": "Polírozás"
+               },
+               {
+                  "name": "Egyéb autóápolás"
+               }
+            ]
+         },
+         {
+            "name": "Beltér",
+            "children": [
+               {
+                  "name": "Üléshuzatok"
+               },
+               {
+                  "name": "Kormányvédők"
+               },
+               {
+                  "name": "Autószőnyegek"
+               },
+               {
+                  "name": "Szivargyújtó"
+               },
+               {
+                  "name": "Illatósítók"
+               },
+               {
+                  "name": "Belső ventilátorok"
+               },
+               {
+                  "name": "Tachográf szalag / korong"
+               }
+            ]
+         },
+         {
+            "name": "Kültér",
+            "children": [
+               {
+                  "name": "Ablaktörlő lapátok",
+                  "children": [
+                     {
+                        "name": "Személyautó"
+                     },
+                     {
+                        "name": "Teherautó"
+                     }
+                  ]
+               },
+               {
+                  "name": "Lámpák",
+                  "children": [
+                     {
+                        "name": "Hátsó lámpák",
+                        "children": [
+                           {
+                              "name": "Izzós hátsó lámpák"
+                           },
+                           {
+                              "name": "LED-es hátsó lámpák"
+                           }
+                        ]
+                     },
+                     {
+                        "name": "Szélességjelzők",
+                        "children": [
+                           {
+                              "name": "Izzós szélességjelzők"
+                           },
+                           {
+                              "name": "LED-es szélességjelzők"
+                           }
+                        ]
+                     },
+                     {
+                        "name": "Helyzetjelzők",
+                        "children": [
+                           {
+                              "name": "Izzós helyzetjelzők"
+                           },
+                           {
+                              "name": "LED-es helyzetjelzők"
+                           }
+                        ]
+                     },
+                     {
+                        "name": "Munkalámpák",
+                        "children": [
+                           {
+                              "name": "Izzós munkalámpák"
+                           },
+                           {
+                              "name": "LED-es munkalámpák"
+                           }
+                        ]
+                     },
+                     {
+                        "name": "Forgólámpák",
+                        "children": [
+                           {
+                              "name": "Izzós forgólámpák"
+                           },
+                           {
+                              "name": "LED-es forgólámpák"
+                           }
+                        ]
+                     }
+                  ]
+               },
+               {
+                  "name": "Dísztárcsák"
+               },
+               {
+                  "name": "Tanksapkák"
+               },
+               {
+                  "name": "Rendszámtábla tartók"
+               },
+               {
+                  "name": "Fényvisszaverők",
+                  "children": [
+                     {
+                        "name": "Táblák / matricák"
+                     },
+                     {
+                        "name": "Szalagok"
+                     },
+                     {
+                        "name": "Prizmák"
+                     }
+                  ]
+               }
+            ]
+         },
+         {
+            "name": "Folyadékok",
+            "children": [
+               {
+                  "name": "Ablakmosó folyadék",
+                  "children": [
+                     {
+                        "name": "Nyári ablakmosó folyadék"
+                     },
+                     {
+                        "name": "Téli ablakmosó folyadék"
+                     }
+                  ]
+               },
+               {
+                  "name": "Fagyálló"
+               },
+               {
+                  "name": "Hidraulika olaj"
+               },
+               {
+                  "name": "Fékolaj"
+               },
+               {
+                  "name": "Desztillált víz"
+               },
+               {
+                  "name": "Zsír"
+               },
+               {
+                  "name": "Adalékok",
+                  "children": [
+                     {
+                        "name": "Olajadalék"
+                     },
+                     {
+                        "name": "Üzemanyag adalék"
+                     }
+                  ]
+               }
+            ]
+         },
+         {
+            "name": "Kötelező felszerelések",
+            "children": [
+               {
+                  "name": "ADR készlet"
+               },
+               {
+                  "name": "Elakadásjelző háromszög"
+               },
+               {
+                  "name": "Elsősegély doboz"
+               },
+               {
+                  "name": "Tűzoltó készülék / tartó"
+               },
+               {
+                  "name": "Láthatósági mellény"
+               }
+            ]
+         },
+         {
+            "name": "Rakományrögzítés",
+            "children": [
+               {
+                  "name": "Spanifer"
+               },
+               {
+                  "name": "Élvédő"
+               },
+               {
+                  "name": "Gumipók"
+               },
+               {
+                  "name": "Csúszásgátló"
+               }
+            ]
+         }
+      ]
+   }
+]

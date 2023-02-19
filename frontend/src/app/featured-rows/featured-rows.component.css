@@ -1,0 +1,157 @@
+.content-container {
+   width: 950px;
+   margin: 0 auto;
+   margin-bottom: 100px;
+   margin-top: -30px;
+   padding: 5px 30px;
+}
+
+.product-container {
+   display: flex;
+   width: 950px;
+   margin-top: 50px;
+}
+
+.image-container {
+   width: 450px;
+   min-width: 450px;
+   max-height: 255px;
+   float: right;
+   background-color: white;
+   cursor: pointer;
+   box-shadow: 0px 0px 5px 0px rgb(0 0 0 / 20%);
+   padding: 20px 0px;
+}
+
+.image {
+   width: 100%;
+   max-height: 255px;
+   object-fit: scale-down;
+}
+
+.text-container {
+   width: 600px;
+   float: left;
+}
+
+.name {
+   width: fit-content;
+   color: #3e3e3e;
+   cursor: pointer;
+   transition: 0.25s;
+}
+
+.name:hover {
+   color: var(--color-primary);
+   transition: 0.25s;
+}
+
+.description {
+   margin-bottom: 0px;
+}
+
+.price {
+   font-size: 20px;
+   font-weight: 600;
+   color: var(--color-primary);
+   float: left;
+}
+
+.buttons-container {
+   float: left;
+   margin-top: 17px;
+   margin-left: 15px;
+}
+
+.buttons-container button {
+   margin-right: 10px;
+}
+
+/* Make image and text switch places every second product */
+.product-container:nth-of-type(odd) .image-container {
+   order: 2;
+   margin-left: 70px;
+}
+
+.product-container:nth-of-type(odd) .text-container {
+   order: 1;
+}
+
+.product-container:nth-of-type(even) .image-container {
+   order: 1;
+   margin-right: 80px;
+}
+
+.product-container:nth-of-type(even) .text-container {
+   order: 2;
+}
+
+.nowrap {
+   width: 500px;
+   white-space: nowrap;
+}
+
+@media screen and (max-width: 1000px) {
+   .content-container {
+      width: 100%;
+      padding: 0;
+   }
+
+   .product-container {
+      width: 100%;
+   }
+
+   .text-container {
+      width: 50%;
+   }
+
+   .image-container {
+      min-width: 0;
+      width: 295px;
+      margin-left: auto !important;
+   }
+
+   
+}
+
+@media screen and (max-width: 840px) {
+   .product-container:nth-of-type(odd) .image-container {
+      margin-left: 30px;
+   }
+   
+   .product-container:nth-of-type(even) .image-container {
+      margin-right: 40px;
+   }
+}
+
+@media screen and (max-width: 760px) {
+   .product-container {
+      display: block;
+      margin-bottom: 150px;
+   }
+
+   .image-container, .text-container {
+      width: 360px;
+      float: none;
+      margin: 0 auto !important;
+   }
+}
+
+@media screen and (max-width: 400px) {
+   .product-container {
+      margin-bottom: 180px;
+   }
+
+   .image-container, .text-container {
+      width: 100%;
+   }
+
+   .nowrap {
+      width: 100px;
+      margin-top: -10px;
+   }
+
+   .buttons-container {
+      margin: -10px 0px 0px 0px;
+   }
+}

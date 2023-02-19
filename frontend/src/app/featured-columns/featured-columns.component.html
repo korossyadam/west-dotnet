@@ -1,0 +1,42 @@
+<div class="container">
+
+   <!-- Upper container -->
+   <div class="navigation-container">
+      <p class="title">Kínálatunkból</p>
+      <mat-divider color="primary"></mat-divider>
+
+      <!-- Buttons -->
+      <div class="buttons-container">
+         <button mat-icon-button class="navigation-icon-container" (click)="moveSlider(true)">&lt;</button>
+         <button mat-icon-button class="navigation-icon-container" (click)="moveSlider(false)">&gt;</button>
+      </div>
+   </div>
+
+   <!-- Products container -->
+   <div class="featured-products-container">
+      <div class="featured-product" *ngFor="let product of featuredProducts">
+
+         <!-- Fullscreen button -->
+         <div class="fullscreen-button-container">
+            <mat-icon>fullscreen</mat-icon>
+         </div>
+         
+         <!-- Product image -->
+         <div class="product-img-container" [routerLink]="['/product', product.partNumber]">
+            <img class="product-img" src="{{ product.imgurls[0] }}">
+         </div>
+
+         <!-- Info below product image -->
+         <div class="product-info-container">
+            <button mat-icon-button class="shopping-cart-button" (click)="addProductToCart(product)">
+               <mat-icon class="shopping-cart material-icons-outlined">shopping_cart</mat-icon>
+            </button>
+            <p class="product-partnumber" [routerLink]="['/product', product.partNumber]">{{ product.partNumber }}</p>
+            <p class="product-name" [routerLink]="['/product', product.partNumber]">{{ product.name }}</p>
+            <p class="product-price">{{ formatPriceToString(product.price) }}</p>
+         </div>
+
+      </div>
+   </div>
+
+</div>

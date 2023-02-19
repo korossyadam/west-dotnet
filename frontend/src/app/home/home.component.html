@@ -1,0 +1,21 @@
+<div class="container">
+    <img src="assets/home_bcg.png" class="bcg-image"/>
+
+    <div class="text-container">
+        <p class="main-label">Válaszd ki egyszerűen autód típusát</p>
+        <p class="smaller-label">Vagy bízd ránk, és kérj árajánlatot 1 munkanapon belül</p>
+
+        <div class="buttons-container">
+            <button class="main-button carselect-button" mat-raised-button color="primary" (click)="onCarSelectorButtonClick()">Jármű kiválasztása</button>
+            <button class="main-button offer-button" mat-raised-button color="primary" routerLink="/offer">Árajánlat kérése</button>
+        </div>
+    </div>
+
+</div>
+
+<div class="content-container">
+    <app-info></app-info>
+    <app-featured-columns></app-featured-columns>
+    <app-featured-categories></app-featured-categories>
+    <app-featured-rows></app-featured-rows>
+</div>
