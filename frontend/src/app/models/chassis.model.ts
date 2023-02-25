@@ -3,15 +3,13 @@ export class Chassis {
    public brand: string;
    public name: string;
    public year: string;
-   public hasImg: boolean;
+   public hasImage: boolean;
 
-   constructor(chassisIndex: number, brand: string, name: string, year: string, hasImg: boolean) {
+   constructor(chassisIndex: number, brand: string, name: string, year: string, hasImage: boolean) {
       this.chassisIndex = chassisIndex;
       this.brand = brand;
       this.name = name;
       this.year = year;
-      this.hasImg = hasImg;
-
+      this.hasImage = hasImage;
    }
-
 }

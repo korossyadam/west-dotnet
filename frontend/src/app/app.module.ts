@@ -6,6 +6,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { MainNavigationComponent } from './main-navigation/main-navigation.component';
 import { ProductListComponent } from './product-list/product-list.component';
 
+import { HttpClientModule } from '@angular/common/http';
+
 import { MatCardModule } from  '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
@@ -84,6 +86,7 @@ import { ConfirmationComponent } from './cart/confirmation/confirmation.componen
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     MatCardModule,

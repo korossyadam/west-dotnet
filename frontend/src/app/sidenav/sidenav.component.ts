@@ -2,8 +2,8 @@ import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild } from '@
 import { Chassis } from '../models/chassis.model';
 import { Car } from '../models/car.model';
 import { MatSidenav } from '@angular/material/sidenav';
-import { first } from 'rxjs/operators';
 import { UtilsService } from '../services/utils.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
    selector: 'app-sidenav',
@@ -65,7 +65,7 @@ export class SidenavComponent implements OnInit {
 
    public loading = false;
 
-   constructor(private utilsService: UtilsService, private cdr: ChangeDetectorRef) { }
+  constructor(private utilsService: UtilsService, private http: HttpClient, private cdr: ChangeDetectorRef) { }
 
    // KeyBoardListener - we use this to close all sidenavs with ESCAPE
    @HostListener('document:keyup', ['$event'])
@@ -268,89 +268,51 @@ export class SidenavComponent implements OnInit {
    }
 
    // This method calls carSelectorService to check for cars in searched brand
-   selectElements(selected: string): void {
-      this.loading = true;
+   selectElements(clickedRow: string): void {
+     this.loading = true;
+     clickedRow = clickedRow.replace(/(\r\n|\n|\r)/gm, '');
 
       // Scroll to top of the lower menu
       document.querySelectorAll('.lower-menu')[0]!.scrollTop = 0;
 
-      selected = selected.replace(/(\r\n|\n|\r)/gm, '');
       this.hoveredTextIndex = -1;
 
       // Chassis selection (stage 0 -> stage 1)
       if (this.stage == 0) {
-         this.stage += 1;
+        this.http.get<Chassis[]>('/carselector/chassis/' + clickedRow).subscribe(result => {
+          this.chassis = result;
+          this.activeChassis = result;
+          this.lastSelectedBrand = clickedRow;
 
-         // Check if chassis is already saved in localStorage
-         let localStorageQuery = localStorage.getItem(selected);
-         if (localStorageQuery) {
-            let localStorageQueryParts = localStorageQuery.split('*');
-            let data = [];
-            for (let i = 0; i < localStorageQueryParts.length; i++) {
-               let object = JSON.parse(localStorageQueryParts[i]);
-               data.push(object);
+          // Preload all chassis images
+          let urls = [];
+          for (let i = 0; i < this.chassis.length; i++) {
+            if (this.chassis[i].hasImage) {
+              urls.push('https://storage.googleapis.com/west-webshop.appspot.com/cars/' + this.chassis[i].chassisIndex + '.png');
             }
+          }
+          this.preloadImages(urls);
 
-            this.chassis = data;
-            this.activeChassis = this.chassis;
+          this.lastSelectedBrand = clickedRow;
 
-            // Preload all chassis images
-            let urls = [];
-            for (let i = 0; i < this.chassis.length; i++) {
-               if (this.chassis[i].hasImg) {
-                  urls.push('https://storage.googleapis.com/west-webshop.appspot.com/cars/' + this.chassis[i].chassisIndex + '.png');
-               }
-            }
-            this.preloadImages(urls);
-
-            this.lastSelectedBrand = selected;
-            this.loading = false;
-
-         } else {
-           /*
-            this.carSelectorService.selectBrand(selected).pipe(first()).subscribe(data => {
-               this.chassis = data;
-               this.activeChassis = this.chassis;
-
-               this.chassis = data;
-
-               this.lastSelectedBrand = selected;
-               this.loading = false;
-
-               // Add query result to localStorage to optimize future queries
-               let localStorageLine = '';
-               for (let i = 0; i < data.length; i++) {
-                  localStorageLine += '{"chassisIndex": ' + data[i].chassisIndex + ',"name": "' + data[i].name + '","year": "' + data[i].year + '","hasImg": ' + data[i].hasImg + '}*';
-               }
-
-               // Remove last '*' seperator character from string
-               localStorageLine = localStorageLine.slice(0, -1);
-               localStorage.setItem(selected, localStorageLine);
-            });
-            */
-         }
-
-         this.createDecorativeRows();
-
+          this.createDecorativeRows();
+          this.loading = false;
+        }, error => console.error(error));
          // Engine selection (stage 1 -> stage 2)
       } else if (this.stage == 1) {
-        this.stage += 1;
-        /*
-         this.carSelectorService.selectChassis(selected).pipe(first()).subscribe(data => {
-            this.cars = data;
-            this.activeCars = this.cars;
+        this.http.get<Car[]>('/carselector/cars/' + clickedRow).subscribe(result => {
+          this.cars = result;
+          this.activeCars = result;
 
-            // Fill listelements with engine names
-            this.cars = data;
+          this.lastSelectedChassis = clickedRow;
 
-            this.lastSelectedChassis = selected;
-            this.loading = false;
+          this.createDecorativeRows();
+          this.loading = false;
+        }, error => console.error(error));
+     }
 
-            this.createDecorativeRows();
-         });
-         */
-      }
 
+     this.stage += 1;
    }
 
    /**

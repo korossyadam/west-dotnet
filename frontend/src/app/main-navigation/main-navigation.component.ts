@@ -90,11 +90,11 @@ export class MainNavigationComponent implements OnInit {
     * Emits an event through utilsService to open the car selector sidenav
     */
    onCarSelectorButtonClick(): void {
-      if (this.getEmail() == '') {
-         this.showSnackBar('Ennek a funkciónak a használatához be kell jelentkezned!', 'Bezárás', 4000);
-      } else {
+      //if (this.getEmail() == '' || false) {
+        // this.showSnackBar('Ennek a funkciónak a használatához be kell jelentkezned!', 'Bezárás', 4000);
+      //} else {
          this.openCarSelectorSidenav();
-      }
+      //}
    }
 
    /**
